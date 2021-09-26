@@ -3620,6 +3620,462 @@
    ]
   },
   {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### Operations\n",
+    "\n",
+    "Operations in general exclude missing data.\n",
+    "\n",
+    "Performing a descriptive statistic"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 59,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "a    0.315881\n",
+       "b    0.244764\n",
+       "c   -0.433504\n",
+       "d    5.000000\n",
+       "f    3.500000\n",
+       "dtype: float64"
+      ]
+     },
+     "execution_count": 59,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.mean()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Same operation on the other axis"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 60,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "2021-01-01    1.330462\n",
+       "2021-01-02    1.632434\n",
+       "2021-01-03    1.616201\n",
+       "2021-01-04    1.808666\n",
+       "2021-01-05    1.988491\n",
+       "2021-01-06    2.253963\n",
+       "2021-01-07    1.065819\n",
+       "2021-01-08    0.533741\n",
+       "2021-01-09    1.587425\n",
+       "2021-01-10    1.593095\n",
+       "Freq: D, dtype: float64"
+      ]
+     },
+     "execution_count": 60,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.mean(1)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Operating with objects that have different dimensionality and need alignment. In addition, pandas\n",
+    "automatically broadcasts along the specified dimension."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 63,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "2021-01-01     1.0\n",
+       "2021-01-02     3.0\n",
+       "2021-01-03     5.0\n",
+       "2021-01-04     NaN\n",
+       "2021-01-05     6.0\n",
+       "2021-01-06     8.0\n",
+       "2021-01-07    10.0\n",
+       "2021-01-08    12.0\n",
+       "2021-01-09     NaN\n",
+       "2021-01-10     NaN\n",
+       "Freq: D, dtype: float64"
+      ]
+     },
+     "execution_count": 63,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "seri = pd.Series([1,3,5,np.nan,6,8,10,12,np.nan,np.nan], index=dates)\n",
+    "seri"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 64,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "2021-01-01     NaN\n",
+       "2021-01-02     NaN\n",
+       "2021-01-03     1.0\n",
+       "2021-01-04     3.0\n",
+       "2021-01-05     5.0\n",
+       "2021-01-06     NaN\n",
+       "2021-01-07     6.0\n",
+       "2021-01-08     8.0\n",
+       "2021-01-09    10.0\n",
+       "2021-01-10    12.0\n",
+       "Freq: D, dtype: float64"
+      ]
+     },
+     "execution_count": 64,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "seri.shift(2)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 66,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>a</th>\n",
+       "      <th>b</th>\n",
+       "      <th>c</th>\n",
+       "      <th>d</th>\n",
+       "      <th>f</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>2021-01-01</th>\n",
+       "      <td>-1.000000</td>\n",
+       "      <td>-1.000000</td>\n",
+       "      <td>-0.347688</td>\n",
+       "      <td>4.0</td>\n",
+       "      <td>0.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2021-01-02</th>\n",
+       "      <td>-3.601569</td>\n",
+       "      <td>-2.111522</td>\n",
+       "      <td>-2.124738</td>\n",
+       "      <td>2.0</td>\n",
+       "      <td>-1.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2021-01-03</th>\n",
+       "      <td>-4.028324</td>\n",
+       "      <td>-4.832920</td>\n",
+       "      <td>-6.057748</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>-2.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2021-01-04</th>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2021-01-05</th>\n",
+       "      <td>-5.574379</td>\n",
+       "      <td>-6.049688</td>\n",
+       "      <td>-6.433479</td>\n",
+       "      <td>-1.0</td>\n",
+       "      <td>-1.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2021-01-06</th>\n",
+       "      <td>-6.642696</td>\n",
+       "      <td>-7.821947</td>\n",
+       "      <td>-9.265542</td>\n",
+       "      <td>-3.0</td>\n",
+       "      <td>-2.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2021-01-07</th>\n",
+       "      <td>-9.968651</td>\n",
+       "      <td>-10.749075</td>\n",
+       "      <td>-10.018996</td>\n",
+       "      <td>-5.0</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2021-01-08</th>\n",
+       "      <td>-12.882429</td>\n",
+       "      <td>-12.817032</td>\n",
+       "      <td>-13.165577</td>\n",
+       "      <td>-7.0</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2021-01-09</th>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2021-01-10</th>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                    a          b          c    d    f\n",
+       "2021-01-01  -1.000000  -1.000000  -0.347688  4.0  0.0\n",
+       "2021-01-02  -3.601569  -2.111522  -2.124738  2.0 -1.0\n",
+       "2021-01-03  -4.028324  -4.832920  -6.057748  0.0 -2.0\n",
+       "2021-01-04        NaN        NaN        NaN  NaN  NaN\n",
+       "2021-01-05  -5.574379  -6.049688  -6.433479 -1.0 -1.0\n",
+       "2021-01-06  -6.642696  -7.821947  -9.265542 -3.0 -2.0\n",
+       "2021-01-07  -9.968651 -10.749075 -10.018996 -5.0  NaN\n",
+       "2021-01-08 -12.882429 -12.817032 -13.165577 -7.0  NaN\n",
+       "2021-01-09        NaN        NaN        NaN  NaN  NaN\n",
+       "2021-01-10        NaN        NaN        NaN  NaN  NaN"
+      ]
+     },
+     "execution_count": 66,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.sub(seri, axis=\"index\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### Apply Functions to data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 67,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>a</th>\n",
+       "      <th>b</th>\n",
+       "      <th>c</th>\n",
+       "      <th>d</th>\n",
+       "      <th>f</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>2021-01-01</th>\n",
+       "      <td>0.000000</td>\n",
+       "      <td>0.000000</td>\n",
+       "      <td>0.652312</td>\n",
+       "      <td>5</td>\n",
+       "      <td>1.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2021-01-02</th>\n",
+       "      <td>-0.601569</td>\n",
+       "      <td>0.888478</td>\n",
+       "      <td>1.527574</td>\n",
+       "      <td>10</td>\n",
+       "      <td>3.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2021-01-03</th>\n",
+       "      <td>0.370107</td>\n",
+       "      <td>1.055557</td>\n",
+       "      <td>0.469826</td>\n",
+       "      <td>15</td>\n",
+       "      <td>6.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2021-01-04</th>\n",
+       "      <td>-0.054716</td>\n",
+       "      <td>2.568520</td>\n",
+       "      <td>-0.574982</td>\n",
+       "      <td>20</td>\n",
+       "      <td>10.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2021-01-05</th>\n",
+       "      <td>0.370905</td>\n",
+       "      <td>2.518832</td>\n",
+       "      <td>-1.008461</td>\n",
+       "      <td>25</td>\n",
+       "      <td>15.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2021-01-06</th>\n",
+       "      <td>1.728209</td>\n",
+       "      <td>2.696885</td>\n",
+       "      <td>-2.274003</td>\n",
+       "      <td>30</td>\n",
+       "      <td>21.0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2021-01-07</th>\n",
+       "      <td>1.759558</td>\n",
+       "      <td>1.947809</td>\n",
+       "      <td>-2.292999</td>\n",
+       "      <td>35</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2021-01-08</th>\n",
+       "      <td>0.877130</td>\n",
+       "      <td>1.130777</td>\n",
+       "      <td>-3.458576</td>\n",
+       "      <td>40</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2021-01-09</th>\n",
+       "      <td>2.425683</td>\n",
+       "      <td>1.676490</td>\n",
+       "      <td>-4.203142</td>\n",
+       "      <td>45</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2021-01-10</th>\n",
+       "      <td>3.158813</td>\n",
+       "      <td>2.447641</td>\n",
+       "      <td>-4.335043</td>\n",
+       "      <td>50</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                   a         b         c   d     f\n",
+       "2021-01-01  0.000000  0.000000  0.652312   5   1.0\n",
+       "2021-01-02 -0.601569  0.888478  1.527574  10   3.0\n",
+       "2021-01-03  0.370107  1.055557  0.469826  15   6.0\n",
+       "2021-01-04 -0.054716  2.568520 -0.574982  20  10.0\n",
+       "2021-01-05  0.370905  2.518832 -1.008461  25  15.0\n",
+       "2021-01-06  1.728209  2.696885 -2.274003  30  21.0\n",
+       "2021-01-07  1.759558  1.947809 -2.292999  35   NaN\n",
+       "2021-01-08  0.877130  1.130777 -3.458576  40   NaN\n",
+       "2021-01-09  2.425683  1.676490 -4.203142  45   NaN\n",
+       "2021-01-10  3.158813  2.447641 -4.335043  50   NaN"
+      ]
+     },
+     "execution_count": 67,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.apply(np.cumsum)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 68,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "a    2.430982\n",
+       "b    2.329995\n",
+       "c    2.140804\n",
+       "d    0.000000\n",
+       "f    5.000000\n",
+       "dtype: float64"
+      ]
+     },
+     "execution_count": 68,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.apply(lambda x: x.max() - x.min())"
+   ]
+  },
+  {
    "cell_type": "code",
    "execution_count": null,
    "metadata": {},
